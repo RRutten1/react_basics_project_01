@@ -6,6 +6,8 @@ import {
   Text,
   Badge,
   Button,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
 
 export const RecipePage = ({ recipe, onBackButtonClick }) => {
@@ -23,9 +25,18 @@ export const RecipePage = ({ recipe, onBackButtonClick }) => {
     totalNutrients,
   } = recipe;
 
+  const filteredTotalNutrients = {
+    ENERC_KCAL: totalNutrients.ENERC_KCAL,
+    PROCNT: totalNutrients.PROCNT,
+    FAT: totalNutrients.FAT,
+    CHOCDF: totalNutrients.CHOCDF,
+    CHOLE: totalNutrients.CHOLE,
+    NA: totalNutrients.NA,
+  };
+
   return (
     <Center flexDir="column" mt={8} bg="blue.50" p={4} borderRadius="xl">
-      <Heading p={10}>{label}</Heading>
+      <Heading pb={8}>{label}</Heading>
       <Box
         boxShadow="xl"
         p={4}
@@ -63,31 +74,38 @@ export const RecipePage = ({ recipe, onBackButtonClick }) => {
         <Text mt={2}>
           <strong>Cautions:</strong> {cautions.join(", ") || "None"}
         </Text>
-        <Text mt={2}>
-          <strong>Ingredients:</strong>
-        </Text>
-        <ul>
-          {ingredientLines.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
-        <Text mt={2}>
+        <Box mt={4}>
+          <Text fontWeight="bold">Ingredients:</Text>
+          <List styleType="disc" mt={2} pl={4}>
+            {ingredientLines.map((ingredient, index) => (
+              <ListItem key={index}>{ingredient}</ListItem>
+            ))}
+          </List>
+        </Box>
+        <Text mt={4}>
           <strong>Servings:</strong> {servings}
         </Text>
-        <Text mt={2}>
-          <strong>Total Nutrients:</strong>
-        </Text>
-        <ul>
-          {Object.entries(totalNutrients).map(([key, value], index) => (
-            <li key={index}>
-              <strong>{key}:</strong> {value.label}: {value.quantity.toFixed(2)}{" "}
-              {value.unit}
-            </li>
-          ))}
-        </ul>
-        <Button aligSelf="center" mt={4} onClick={onBackButtonClick}>
-          Back to Recipes
-        </Button>
+        <Box mt={4}>
+          <Text fontWeight="bold">
+            Total Nutrients (Energy in kcal, protein, fat, carbs, cholesterol,
+            sodium):
+          </Text>
+          <List styleType="none" mt={2} pl={4}>
+            {Object.entries(filteredTotalNutrients).map(
+              (
+                [key, value],
+                index // eslint-disable-line no-unused-vars
+              ) => (
+                <ListItem key={index}>
+                  {value.label}: {value.quantity.toFixed(2)} {value.unit}
+                </ListItem>
+              )
+            )}
+          </List>
+        </Box>
+        <Center mt={6}>
+          <Button onClick={onBackButtonClick}>Back to Recipes</Button>
+        </Center>
       </Box>
     </Center>
   );

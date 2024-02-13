@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { data } from "../utils/data";
 import { useState } from "react";
-import { RecipePage } from "../components/RecipePage";
+import { RecipePage } from "./RecipePage";
 
 export const RecipeListPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -140,7 +140,7 @@ export const RecipeListPage = () => {
                       <strong>Health Labels:</strong>
                     </Text>
                     <Box>
-                      {hit.recipe.healthLabels.map((label, index) => (
+                      {hit.recipe.healthLabels.map((label) => (
                         <Badge key={index} colorScheme="green" mr={2}>
                           {label}
                         </Badge>
